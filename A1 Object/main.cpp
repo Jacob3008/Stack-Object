@@ -1,22 +1,23 @@
+// Jacob Neuman 2/21/24
+
 #include <iostream>
 #include <vector>
+#include "stack.h"
 using namespace std;
 
-bool prompt(vector<string>&);
-void display(vector<string>);
-void validate(string&);
+bool prompt(Stack&);
 
 int main() {
-	vector<string> stack;
+	Stack myStack;
 
 	// repeate prompt until user exits
-	while (prompt(stack))
-		prompt(stack);
+	while (prompt(myStack))
+		prompt(myStack);
 
 	return 0;
 }
 
-bool prompt(vector<string>& stack) {
+bool prompt(Stack& stack) {
 	int choice;
 
 	cout << "1. Push" << endl;
@@ -30,64 +31,33 @@ bool prompt(vector<string>& stack) {
 		cout << "Please enter a value 1-4: "; cin >> choice;
 	}
 
+	// push value for 1
 	if (choice == 1) {
 		string val;
 		cout << "Enter value to push to the stack: "; cin >> val;
-		validate(val);
-		stack.push_back(val);
+		stack.push(val);
 		cout << endl;
 		return true;
 	}
+
+	// pop value for 2
 	else if (choice == 2) {
 		cout << endl;
-
-		// check vector isnt empty
-		if (stack.empty()) {
-			cout << "error, underflow" << endl;
-		}
-		else {
-			cout << "Popped: " << stack.back() << endl;
-			stack.pop_back();
-		}
+		stack.pop();
 		cout << endl;
 		return true;
 	}
+
+	// display elements for 3
 	else if (choice == 3) {
 		cout << endl;
-		display(stack);
+		stack.display();
 		cout << endl;
 		return true;
 	}
+
+	// exit
 	else {
 		return false;
-	}
-}
-
-void display(vector<string> stack) {
-	cout << "Stack Elements:";
-	for (int i = 0; i < stack.size(); i++) {
-		cout << " " << stack.at(i);
-	}
-	cout << endl;
-}
-
-void validate(string& val) {
-	// makes sure string is 2 characters
-	if (val.length() > 2) {
-		val = val.substr(0, 2);
-	}
-	else if (val.length() == 1)
-	{
-		val = val + ' ';
-	}
-
-	// changes value to uppercase or space
-	for (int i = 0; i < val.length(); i++) {
-		if (!isalpha(val.at(i))) {
-			val.at(i) = ' ';
-		}
-		else {
-			val.at(i) = toupper(val.at(i));
-		}
 	}
 }
